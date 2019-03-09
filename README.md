@@ -4,7 +4,7 @@ Game Design Document (GDD)
 
 Genre: 
 Game mode:
-History:
+Story:
 Sketches:
 Look & Feel:
 User Interface:
