@@ -13,7 +13,7 @@ void ATankPlayerController::BeginPlay() {
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Player controller possesing: %s"), *(controlledTank->GetName()));
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Player Controller BeginPlay"));
+	
 }
 
 ATank* ATankPlayerController::GetControlledTank() const {
