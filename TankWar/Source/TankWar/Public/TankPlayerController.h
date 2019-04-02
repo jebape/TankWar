@@ -29,6 +29,7 @@ private:
 
 	void AimTowardsCrooshair();
 	bool GetSightRayHitLocation(FVector& hitLoc) const;
+	bool GetLookDirection(FVector2D screenLocation, FVector worldDirection) const;
 
 };
 
