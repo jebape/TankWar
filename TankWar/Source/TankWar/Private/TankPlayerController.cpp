@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Engine/World.h"
 #include "TankPlayerController.h"
 
 
@@ -29,10 +30,10 @@ void ATankPlayerController::AimTowardsCrooshair() {
 	if (!GetControlledTank()) return;
 
 	FVector hitLocation;
-	if (GetSightRayHitLocation(hitLocation)) {
-		UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *hitLocation.ToString());
-			// todo: tell controlled tank to aim at that point
-	}
+	GetSightRayHitLocation(hitLocation);
+	UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *hitLocation.ToString());
+	// todo: tell controlled tank to aim at that point
+	
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& hitLoc) const
@@ -44,15 +45,28 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& hitLoc) const
 	auto screenLocation = FVector2D(viewPortSizeX * crossHairXLoc, viewPortSizeY * crossHairYLoc);
 	
 	// De-project screen cursor position to world direction
-	FVector lookDirection;
-	if(GetLookDirection(screenLocation, lookDirection))
-		UE_LOG(LogTemp, Warning, TEXT("Look direction: %s"), *lookDirection.ToString());
-	// Line trace along that direction
+	if (GetLookVectorHitLocation(screenLocation, hitLoc)) {
+		return true;
+	}
+	
 	return false;
 }
 
-bool ATankPlayerController::GetLookDirection(FVector2D screenLocation, FVector worldDirection) const
+bool ATankPlayerController::GetLookVectorHitLocation(FVector2D screenLocation, FVector & hitLoc) const
 {
-	FVector worldLoc;
-	return DeprojectScreenPositionToWorld(screenLocation.X, screenLocation.Y, worldLoc, worldDirection);
+	FVector LookDirection;
+	FVector CameraLocation;
+	if (DeprojectScreenPositionToWorld(screenLocation.X, screenLocation.Y, CameraLocation, LookDirection))
+	{
+		// Line-trace along that LookDirection, and see what we hit (up to max range)
+		FHitResult HitResult;
+		auto EndLocation = CameraLocation + (LookDirection * lineTraceRange);
+		if (GetWorld()->LineTraceSingleByChannel(HitResult, CameraLocation, EndLocation, ECollisionChannel::ECC_Visibility))
+		{
+			hitLoc = HitResult.Location;
+			return true;
+		}
+		hitLoc = FVector(0.0f);
+	}
+	return false;
 }

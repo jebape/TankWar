@@ -23,13 +23,16 @@ public:
 	
 private:
 	UPROPERTY(EditAnywhere)
-	float crossHairXLoc = 0.5;
+		float crossHairXLoc = 0.5;
 	UPROPERTY(EditAnywhere)
-	float crossHairYLoc = 0.33333;
+		float crossHairYLoc = 0.33333;
+	UPROPERTY(EditAnywhere)
+		float lineTraceRange = 1000000;		// 10km range (unreal is in cm)
+
 
 	void AimTowardsCrooshair();
 	bool GetSightRayHitLocation(FVector& hitLoc) const;
-	bool GetLookDirection(FVector2D screenLocation, FVector worldDirection) const;
+	bool GetLookVectorHitLocation(FVector2D screenLocation, FVector& hitLoc) const;
 
 };
 
