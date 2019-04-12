@@ -40,18 +40,24 @@ void UTankAmingComponent::AimAt(FVector hitLocation, float launchSpeed)
 		startLoc,
 		hitLocation,
 		launchSpeed,
-		false,
-		.0f,
-		.0f,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	))
 	{
 		auto aimDirection = launchVelocity.GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("%s aimming at %s from %s"), *GetOwner()->GetName(), *aimDirection.ToString(), *this->barrel->GetComponentLocation().ToString());
+		MoveBarrelTowards(aimDirection);
+		//UE_LOG(LogTemp, Warning, TEXT("%s aimming at %s from %s"), *GetOwner()->GetName(), *aimDirection.ToString(), *this->barrel->GetComponentLocation().ToString());
 	}
 }
 
 void UTankAmingComponent::SetBarrelReference(UStaticMeshComponent * barrel)
 {
 	this->barrel = barrel;
+}
+
+void UTankAmingComponent::MoveBarrelTowards(FVector aimDirection)
+{
+	FRotator barrelRotator = this->barrel->GetForwardVector().Rotation();
+	FRotator aimRotator = aimDirection.Rotation();
+	FRotator deltaRotator = aimRotator - barrelRotator;
+	UE_LOG(LogTemp, Warning, TEXT("Barrel Rotator: %s"), *aimRotator.ToString());
 }
