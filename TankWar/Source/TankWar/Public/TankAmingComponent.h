@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "TankAmingComponent.generated.h"
 
+class UTankBarrel;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANKWAR_API UTankAmingComponent : public UActorComponent
@@ -25,10 +26,10 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void AimAt(FVector hitLocation, float launchSpeed);
-	void SetBarrelReference(UStaticMeshComponent* barrel);
+	void SetBarrelReference(UTankBarrel* barrel);
 
 private:
-	UStaticMeshComponent* barrel = nullptr;
+	UTankBarrel* barrel = nullptr;
 
 	void MoveBarrelTowards(FVector aimDirection);
 	
