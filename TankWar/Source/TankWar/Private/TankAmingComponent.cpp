@@ -42,6 +42,9 @@ void UTankAmingComponent::AimAt(FVector hitLocation, float launchSpeed)
 		startLoc,
 		hitLocation,
 		launchSpeed,
+		false,
+		0,
+		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	))
 	{

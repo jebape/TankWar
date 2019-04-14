@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "TankAmingComponent.h"
 #include "Tank.generated.h"
+
+class UTankAmingComponent;
 
 UCLASS()
 class TANKWAR_API ATank : public APawn
