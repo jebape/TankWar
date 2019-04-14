@@ -15,7 +15,7 @@ class TANKWAR_API UTankBarrel : public UStaticMeshComponent
 	GENERATED_BODY()
 	
 public:
-	void Elevate(float degreesPerSecond);
+	void Elevate(float relativeSpeed);
 	
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)
